@@ -6,7 +6,7 @@
 #    By: inazaria <inazaria@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/17 20:24:39 by inazaria          #+#    #+#              #
-#    Updated: 2024/04/26 14:37:51 by inazaria         ###   ########.fr        #
+#    Updated: 2024/04/26 23:00:09 by inazaria         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -50,11 +50,15 @@ bonus : libft $(OBJ_FILES_BONUS)
 libft :
 	@$(MAKE) --no-print-directory -C ./libft all
 
-fclean : 
+fclean :
 	@echo "$(YELLOW)Deleting pipex obj files...$(END)"
 	@$(RM) $(OBJ_FILES) 
+	@echo "$(YELLOW)Deleting pipex_bonus obj files...$(END)"
+	@$(RM) $(OBJ_FILES_BONUS)
 	@echo "$(YELLOW)Deleting pipex...$(END)"
 	@$(RM) $(NAME) 
+	@echo "$(YELLOW)Deleting pipex_bonus...$(END)"
+	@$(RM) $(NAME_BONUS)
 	@echo "$(YELLOW)Deleting libft obj files...$(END)"
 	@echo "$(YELLOW)Deleting libft.a...$(END)"
 	@$(MAKE) --no-print-directory -C ./libft fclean
@@ -63,6 +67,8 @@ fclean :
 clean :
 	@echo "$(YELLOW)Deleting pipex obj files...$(END)"
 	@$(RM) $(OBJ_FILES) 
+	@echo "$(YELLOW)Deleting pipex_bonus obj files...$(END)"
+	@$(RM) $(OBJ_FILES_BONUS)
 	@echo "$(YELLOW)Deleting libft obj files...$(END)"
 	@$(MAKE) --no-print-directory -C ./libft clean
 	@echo "$(GREEN)Deleted all obj files !$(END)"
