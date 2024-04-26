@@ -6,47 +6,53 @@
 #    By: inazaria <inazaria@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/17 20:24:39 by inazaria          #+#    #+#              #
-#    Updated: 2024/04/17 20:51:19 by inazaria         ###   ########.fr        #
+#    Updated: 2024/04/26 14:37:51 by inazaria         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-SRC_FILE_TEST = $(wildcard ./src/test/*.c)
+SRC_FILES_STANDARD := $(filter-out %_bonus.c, $(wildcard ./src/*.c))
+SRC_FILES_BONUS    := $(wildcard ./src/*_bonus.c)
 
-SRC_FILES = $(SRC_FILE_TEST)
-
-OBJ_FILES = (SRC_FILES:.c=.o)
-
-
-NAME        = pipex
-CC          = clang
-BUFFER_SIZE = 1024
-INCLUDE     = ./includes/
-CFLAGS      = -Wall -Wextra -Werror -g3 -D BUFFER_SIZE=$(BUFFER_SIZE) -I $(INCLUDE)
+OBJ_FILES_STANDARD := $(SRC_FILES_STANDARD:.c=.o)
+OBJ_FILES_BONUS    := $(SRC_FILES_BONUS:.c=.o)
 
 
-BLUE		= $(shell echo -e "\033[34m") 
-YELLOW		= $(shell echo -e "\033[33m")
-GREEN		= $(shell echo -e "\033[32m")
-END			= $(shell echo -e "\033[0m")
+NAME        := pipex
+NAME_BONUS  := pipex_bonus
+CC          := clang
+INCLUDE     := ./includes/
+CFLAGS      := -Wall -Wextra -Werror -g3 -I $(INCLUDE)
+RM          := rm -f
+
+BLUE		:= $(shell echo -e "\033[34m") 
+YELLOW		:= $(shell echo -e "\033[33m")
+GREEN		:= $(shell echo -e "\033[32m")
+END			:= $(shell echo -e "\033[0m")
 
 
 .c.o :
-	@$(CC) $(CFLAGS) -c $< -O $@
+	@$(CC) $(CFLAGS) -c $< -o $@
 
 all : $(NAME)
 
+
 $(NAME) : libft $(OBJ_FILES)
 	@echo "$(YELLOW)Compiling pipex...$(END)"
-	@$(CC) $(CFLAGS) $(OBJ_FILES) src/pipex.c -o $(NAME) libft/libft.a
+	@$(CC) $(CFLAGS) $(OBJ_FILES_STANDARD) -o $(NAME) libft/libft.a
 	@echo "$(GREEN)Compiled pipex !$(END)"
 
-libft : 
-	@$(MAKE) -C ./libft
+bonus : libft $(OBJ_FILES_BONUS)
+	@echo "$(YELLOW)Compiling pipex_bonus...$(END)"
+	@$(CC) $(CFLAGS) $(OBJ_FILES_BONUS) -o $(NAME_BONUS) libft/libft.a
+	@echo "$(GREEN)Compiled pipex_bonus !$(END)"
 
+
+libft :
+	@$(MAKE) --no-print-directory -C ./libft all
 
 fclean : 
 	@echo "$(YELLOW)Deleting pipex obj files...$(END)"
-	@$(RM) $(OBJ_FILES) src/pipex.o
+	@$(RM) $(OBJ_FILES) 
 	@echo "$(YELLOW)Deleting pipex...$(END)"
 	@$(RM) $(NAME) 
 	@echo "$(YELLOW)Deleting libft obj files...$(END)"
@@ -56,7 +62,7 @@ fclean :
 
 clean :
 	@echo "$(YELLOW)Deleting pipex obj files...$(END)"
-	@$(RM) $(OBJ_FILES)
+	@$(RM) $(OBJ_FILES) 
 	@echo "$(YELLOW)Deleting libft obj files...$(END)"
 	@$(MAKE) --no-print-directory -C ./libft clean
 	@echo "$(GREEN)Deleted all obj files !$(END)"
