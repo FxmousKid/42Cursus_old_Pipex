@@ -6,7 +6,7 @@
 /*   By: inazaria <inazaria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 14:15:07 by inazaria          #+#    #+#             */
-/*   Updated: 2024/04/27 00:25:12 by inazaria         ###   ########.fr       */
+/*   Updated: 2024/04/27 20:54:34 by inazaria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int	exec_command2(char *argv[], char *env[], int fds[2])
 		return (ft_err_1("[pipex_utils -> exec_command2 -> cmd_split\n]"), 1);
 	path = find_path_1(env, cmd[0]);
 	if (path == NULL)
-		return (2);
+		return (ft_err_1("Error : command not found\n"), 2);
 	outfile_fd = open(argv[4], O_RDWR | O_CREAT | O_TRUNC, 0644);
 	if (outfile_fd < 0)
 		return (perror("[pipex_utils -> exec_command2 -> open outfile]\n"), 3);
@@ -93,7 +93,7 @@ int	exec_command1(char *argv[], char *env[], int fds[2])
 		return (ft_err_1("[pipex_utils -> exec_command1 -> cmd_split]\n"), 1);
 	path = find_path_1(env, cmd[0]);
 	if (path == NULL)
-		return (2);
+		return (ft_err_1("Error : command not found\n"), 2);
 	infile_fd = open(argv[1], O_RDONLY);
 	if (infile_fd < 0)
 		return (perror("[pipex_utils -> exec_command1 -> open infile\n]"), 3);

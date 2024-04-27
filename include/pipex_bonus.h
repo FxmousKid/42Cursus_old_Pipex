@@ -6,7 +6,7 @@
 /*   By: inazaria <inazaria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 15:51:25 by inazaria          #+#    #+#             */
-/*   Updated: 2024/04/27 13:47:29 by inazaria         ###   ########.fr       */
+/*   Updated: 2024/04/27 20:25:07 by inazaria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,13 +41,18 @@ typedef struct s_pipex
 
 void	ft_err(char *str);
 char	*find_path(char *env[], char *cmd);
-t_pipex	*make_t_pipex(int argc, char *argv[], char *env[]);
+t_pipex	*make_t_pipex_n_args(int argc, char *argv[], char *env[]);
+t_pipex	*make_t_pipex_here_doc(int argc, char *argv[], char *env[]);
 int		clear_t_pipex(t_pipex *s_pipex);
 int		launch_childs(t_pipex *s_pipex);
 int		exec(t_pipex *s_pipex);
+int		exec_in_pipe_here_doc(t_pipex *s_pipex);
 int		exec_in_pipe_infile(t_pipex *s_pipex);
 int		exec_in_pipe(t_pipex *s_pipex);
-int		exec_in_pipe_outfile(t_pipex *s_pipex);
+int		exec_in_pipe_outfile_n_args(t_pipex *s_pipex);
+int		exec_in_pipe_outfile_here_doc(t_pipex *s_pipex);
+void	open_outfile_n_args(t_pipex *s_pipex);
+void	open_outfile_here_doc(t_pipex *s_pipex);
 int		make_new_pipe(t_pipex *s_pipex);
 
 int		redirect(int new_stdin, int new_stdout);

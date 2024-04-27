@@ -6,7 +6,7 @@
 /*   By: inazaria <inazaria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 01:55:42 by inazaria          #+#    #+#             */
-/*   Updated: 2024/04/27 14:15:22 by inazaria         ###   ########.fr       */
+/*   Updated: 2024/04/27 20:14:48 by inazaria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	ft_err(char *str)
  *			NULL	  -- on failure			
  * */
 
-t_pipex	*make_t_pipex(int argc, char *argv[], char *env[])
+t_pipex	*make_t_pipex_n_args(int argc, char *argv[], char *env[])
 {
 	t_pipex	*s_pipex;
 
@@ -52,10 +52,31 @@ t_pipex	*make_t_pipex(int argc, char *argv[], char *env[])
 	if (pipe(s_pipex->pipe_fds2) < 0)
 		return (perror("piping pipefd2 failed"), NULL);
 	s_pipex->infile_fd = open(argv[1], O_RDONLY);
-	s_pipex->outfile_fd = open(argv[argc - 1], O_RDWR | O_CREAT | O_TRUNC);
+	if (s_pipex->infile_fd < 0)
+		return (perror("open infile failed"), NULL);
+	return (s_pipex);
+}
 
-	if (s_pipex->outfile_fd < 0 || s_pipex->infile_fd < 0)
-		return (perror("open outfile failed or open infile failed"), NULL);
+t_pipex	*make_t_pipex_here_doc(int argc, char *argv[], char *env[])
+{
+	t_pipex	*s_pipex;
+
+	s_pipex = ft_calloc(1, sizeof(t_pipex));
+	if (s_pipex == NULL)
+		return (NULL);
+	s_pipex->env = env;
+	s_pipex->cmds = argv + 2;
+	s_pipex->cmds_count = argc - 4;
+	s_pipex->cmds_counter = 2;
+	s_pipex->status = -1;
+	s_pipex->cpid1 = -1;
+	s_pipex->pipe_fds1 = ft_calloc(2, sizeof(int));
+	s_pipex->pipe_fds2 = ft_calloc(2, sizeof(int));
+	if (s_pipex->pipe_fds1 == NULL || s_pipex->pipe_fds2 == NULL)
+		return (ft_err("calloc failed to make pipe fds\n"), NULL);
+	if (pipe(s_pipex->pipe_fds2) < 0)
+		return (perror("piping pipefd2 failed"), NULL);
+	s_pipex->infile_fd = -1;
 	return (s_pipex);
 }
 
@@ -69,7 +90,7 @@ int	clear_t_pipex(t_pipex *s_pipex)
 	if (s_pipex->outfile_fd > 0)
 	{
 		if (close(s_pipex->outfile_fd) < 0)
-			return (perror("closing outfile_fd failed"), 1);
+			return (perror("closing outfile_fd failed"), 2);
 	}
 	free(s_pipex->pipe_fds1);
 	free(s_pipex->pipe_fds2);

@@ -6,7 +6,7 @@
 /*   By: inazaria <inazaria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 02:06:09 by inazaria          #+#    #+#             */
-/*   Updated: 2024/04/27 02:06:21 by inazaria         ###   ########.fr       */
+/*   Updated: 2024/04/27 20:54:52 by inazaria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,9 +83,41 @@ int	exec_in_pipe(t_pipex *s_pipex)
 	return (0);
 }
 
-int	exec_in_pipe_outfile(t_pipex *s_pipex)
+int	exec_in_pipe_outfile_n_args(t_pipex *s_pipex)
 {
+	open_outfile_n_args(s_pipex);
+	if (s_pipex->outfile_fd < 0)
+		return (ft_err("open_outfile_n_args failed\n"), s_pipex->outfile_fd);
 	s_pipex->cmds_counter += 1;
+	s_pipex->cpid1 = fork();
+	if (s_pipex->cpid1 < 0)
+		return (perror("forking 3 failed or closing pipe_fds1[1] failed"), 2);
+	if (s_pipex->cpid1 == 0)
+	{
+		if (redirect(s_pipex->pipe_fds2[0], s_pipex->outfile_fd) != 0)
+			return (ft_err("redirection 3 failed"), 3);
+		if (exec(s_pipex) != 0)
+			return (ft_err("exec failed\n"), 4);
+	}
+	if (s_pipex->cpid1 > 0)
+	{
+		if (close(s_pipex->pipe_fds1[0]) != 0)
+			return (perror("closing read-end pipe failed"), 4);
+		if (waitpid(-1, &s_pipex->status, 0) < 0)
+			return (perror("waitpid failed"), 5);
+		if (s_pipex->status != 0)
+			return (ft_err("child 3 failed\n"), 6);
+	}
+	return (0);
+}
+
+int	exec_in_pipe_outfile_here_doc(t_pipex *s_pipex)
+{
+	open_outfile_here_doc(s_pipex);
+	if (s_pipex->outfile_fd < 0)
+		return (ft_err("open_outfile_here_doc failed\n"), s_pipex->outfile_fd);
+	if (s_pipex->outfile_fd < 0)
+		return (perror("open outfile failed"), 1);
 	s_pipex->cpid1 = fork();
 	if (s_pipex->cpid1 < 0)
 		return (perror("forking 3 failed or closing pipe_fds1[1] failed"), 2);

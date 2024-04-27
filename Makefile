@@ -6,7 +6,7 @@
 #    By: inazaria <inazaria@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/17 20:24:39 by inazaria          #+#    #+#              #
-#    Updated: 2024/04/27 14:08:24 by inazaria         ###   ########.fr        #
+#    Updated: 2024/04/27 20:34:59 by inazaria         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,9 +28,10 @@ YELLOW		:= $(shell echo -e "\033[33m")
 GREEN		:= $(shell echo -e "\033[32m")
 END			:= $(shell echo -e "\033[0m")
 
+.c.o : 
+	@$(CC) $(CFLAGS) -c $< -o $(<:.c=.o)
 
 all : $(NAME)
-
 
 $(NAME) : libft $(OBJ_FILES_STANDARD)
 	@echo "$(YELLOW)Compiling pipex...$(END)"

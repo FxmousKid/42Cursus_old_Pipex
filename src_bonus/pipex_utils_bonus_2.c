@@ -6,7 +6,7 @@
 /*   By: inazaria <inazaria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 02:00:11 by inazaria          #+#    #+#             */
-/*   Updated: 2024/04/27 02:25:17 by inazaria         ###   ########.fr       */
+/*   Updated: 2024/04/27 20:41:37 by inazaria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,4 +30,26 @@ int	make_new_pipe(t_pipex *s_pipex)
 	if (pipe(s_pipex->pipe_fds2) < 0)
 		return (perror("piping new pipe failed"), 2);
 	return (0);
+}
+
+void	open_outfile_n_args(t_pipex *s_pipex)
+{
+	char	*outfile;
+
+	outfile = s_pipex->cmds[s_pipex->cmds_count];
+	s_pipex->outfile_fd = open(outfile, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	if (s_pipex->outfile_fd < 0)
+		ft_err("open outfile failed\n");
+	return ;
+}
+
+void	open_outfile_here_doc(t_pipex *s_pipex)
+{
+	char	*outfile;
+
+	outfile = s_pipex->cmds[s_pipex->cmds_count + 1];
+	s_pipex->outfile_fd = open(outfile, O_WRONLY | O_APPEND, 0644);
+	if (s_pipex->outfile_fd < 0)
+		perror("open outfile failed");
+	return ;
 }
