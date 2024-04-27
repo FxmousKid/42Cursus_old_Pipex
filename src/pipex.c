@@ -6,7 +6,7 @@
 /*   By: inazaria <inazaria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 22:17:55 by inazaria          #+#    #+#             */
-/*   Updated: 2024/04/26 02:54:45 by inazaria         ###   ########.fr       */
+/*   Updated: 2024/04/27 00:24:43 by inazaria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,7 @@ int	main(int argc, char *argv[], char *env[])
 	int	res;
 
 	if (argc != 5)
-		return (ft_err("Invalid arg count\n"), 1);
+		return (ft_err_1("Invalid arg count\n"), 1);
 	res = pipex(argv, env);
 	if (res != 0)
 		return (1);

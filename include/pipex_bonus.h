@@ -6,7 +6,7 @@
 /*   By: inazaria <inazaria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 15:51:25 by inazaria          #+#    #+#             */
-/*   Updated: 2024/04/26 20:27:22 by inazaria         ###   ########.fr       */
+/*   Updated: 2024/04/27 13:47:29 by inazaria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,8 @@
 
 # include "../libft/include/libft.h"
 
-typedef struct s_pipex {
+typedef struct s_pipex
+{
 	char	**env;
 	char	**cmds;
 	int		cmds_count;
@@ -44,6 +45,9 @@ t_pipex	*make_t_pipex(int argc, char *argv[], char *env[]);
 int		clear_t_pipex(t_pipex *s_pipex);
 int		launch_childs(t_pipex *s_pipex);
 int		exec(t_pipex *s_pipex);
+int		exec_in_pipe_infile(t_pipex *s_pipex);
+int		exec_in_pipe(t_pipex *s_pipex);
+int		exec_in_pipe_outfile(t_pipex *s_pipex);
 int		make_new_pipe(t_pipex *s_pipex);
 
 int		redirect(int new_stdin, int new_stdout);

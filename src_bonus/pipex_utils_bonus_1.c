@@ -1,40 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex_utils_bonus.c                                :+:      :+:    :+:   */
+/*   pipex_utils_bonus_1.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: inazaria <inazaria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/25 00:38:13 by inazaria          #+#    #+#             */
-/*   Updated: 2024/04/25 00:58:02 by inazaria         ###   ########.fr       */
+/*   Created: 2024/04/27 01:55:42 by inazaria          #+#    #+#             */
+/*   Updated: 2024/04/27 14:15:22 by inazaria         ###   ########.fr       */
 /*                                                                            */
-
 /* ************************************************************************** */
 
 #include "../include/pipex_bonus.h"
-#include <strings.h>
-#include <unistd.h>
-
-int	make_new_pipe(t_pipex *s_pipex)
-{
-	free(s_pipex->pipe_fds2);
-	s_pipex->pipe_fds2 = ft_calloc(sizeof(int), 2);
-	if (s_pipex->pipe_fds2 == NULL)
-		return (ft_err("calloc make_new_pipe failed"), 1);
-	if (pipe(s_pipex->pipe_fds2) < 0)
-		return (perror("piping new pipe failed"), 2);
-	return (0);
-}
-
-
-int	redirect(int new_stdin, int new_stdout)
-{
-	if (new_stdin > 0 && dup2(new_stdin, STDIN_FILENO) < 0)
-		return (perror("dup2 failed STDIN"), 1);
-	if (new_stdout > 0 && dup2(new_stdout, STDOUT_FILENO) < 0)
-		return (perror("dup2 failed STDOUT"), 2);
-	return (0);
-}
 
 void	ft_err(char *str)
 {
@@ -58,7 +34,7 @@ void	ft_err(char *str)
 
 t_pipex	*make_t_pipex(int argc, char *argv[], char *env[])
 {
-	t_pipex *s_pipex;
+	t_pipex	*s_pipex;
 
 	s_pipex = ft_calloc(1, sizeof(t_pipex));
 	if (s_pipex == NULL)
@@ -77,8 +53,9 @@ t_pipex	*make_t_pipex(int argc, char *argv[], char *env[])
 		return (perror("piping pipefd2 failed"), NULL);
 	s_pipex->infile_fd = open(argv[1], O_RDONLY);
 	s_pipex->outfile_fd = open(argv[argc - 1], O_RDWR | O_CREAT | O_TRUNC);
+
 	if (s_pipex->outfile_fd < 0 || s_pipex->infile_fd < 0)
-		return (perror("open outfile failed or open infile failed"), NULL);	
+		return (perror("open outfile failed or open infile failed"), NULL);
 	return (s_pipex);
 }
 
@@ -88,20 +65,18 @@ int	clear_t_pipex(t_pipex *s_pipex)
 	{
 		if (close(s_pipex->infile_fd) < 0)
 			return (perror("closing infile_fd failed"), 1);
-		 
-	} 
+	}
 	if (s_pipex->outfile_fd > 0)
-	{ 
+	{
 		if (close(s_pipex->outfile_fd) < 0)
 			return (perror("closing outfile_fd failed"), 1);
-		  
 	}
 	free(s_pipex->pipe_fds1);
 	free(s_pipex->pipe_fds2);
 	free(s_pipex);
 	return (0);
-} 
- 
+}
+
 /* Name : find_path 
  * 
  * Params : char *env[] -> environnement variables taken from main

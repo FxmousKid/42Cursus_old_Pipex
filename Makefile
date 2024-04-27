@@ -6,16 +6,15 @@
 #    By: inazaria <inazaria@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/17 20:24:39 by inazaria          #+#    #+#              #
-#    Updated: 2024/04/26 23:00:09 by inazaria         ###   ########.fr        #
+#    Updated: 2024/04/27 14:08:24 by inazaria         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-SRC_FILES_STANDARD := $(filter-out %_bonus.c, $(wildcard ./src/*.c))
-SRC_FILES_BONUS    := $(wildcard ./src/*_bonus.c)
+SRC_FILES_STANDARD := $(wildcard ./src/*.c)
+SRC_FILES_BONUS    := $(wildcard ./src_bonus/*.c)
 
 OBJ_FILES_STANDARD := $(SRC_FILES_STANDARD:.c=.o)
 OBJ_FILES_BONUS    := $(SRC_FILES_BONUS:.c=.o)
-
 
 NAME        := pipex
 NAME_BONUS  := pipex_bonus
@@ -30,20 +29,17 @@ GREEN		:= $(shell echo -e "\033[32m")
 END			:= $(shell echo -e "\033[0m")
 
 
-.c.o :
-	@$(CC) $(CFLAGS) -c $< -o $@
-
 all : $(NAME)
 
 
-$(NAME) : libft $(OBJ_FILES)
+$(NAME) : libft $(OBJ_FILES_STANDARD)
 	@echo "$(YELLOW)Compiling pipex...$(END)"
-	@$(CC) $(CFLAGS) $(OBJ_FILES_STANDARD) -o $(NAME) libft/libft.a
+	@$(CC) $(CFLAGS) $(OBJ_FILES_STANDARD) -o $(NAME) ./libft/libft.a 
 	@echo "$(GREEN)Compiled pipex !$(END)"
 
 bonus : libft $(OBJ_FILES_BONUS)
 	@echo "$(YELLOW)Compiling pipex_bonus...$(END)"
-	@$(CC) $(CFLAGS) $(OBJ_FILES_BONUS) -o $(NAME_BONUS) libft/libft.a
+	@$(CC) $(CFLAGS) $(OBJ_FILES_BONUS) -o $(NAME_BONUS) ./libft/libft.a
 	@echo "$(GREEN)Compiled pipex_bonus !$(END)"
 
 

@@ -6,13 +6,13 @@
 /*   By: inazaria <inazaria@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 14:15:07 by inazaria          #+#    #+#             */
-/*   Updated: 2024/04/25 23:58:09 by inazaria         ###   ########.fr       */
+/*   Updated: 2024/04/27 00:25:12 by inazaria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/pipex.h"
 
-void	ft_err(char *str)
+void	ft_err_1(char *str)
 {
 	ft_putstr_fd(str, 2);
 }
@@ -43,8 +43,8 @@ int	exec_command2(char *argv[], char *env[], int fds[2])
 
 	cmd = ft_split(argv[3], ' ');
 	if (cmd == NULL)
-		return (ft_err("[pipex_utils -> exec_command2 -> cmd_split\n]"), 1);
-	path = find_path(env, cmd[0]);
+		return (ft_err_1("[pipex_utils -> exec_command2 -> cmd_split\n]"), 1);
+	path = find_path_1(env, cmd[0]);
 	if (path == NULL)
 		return (2);
 	outfile_fd = open(argv[4], O_RDWR | O_CREAT | O_TRUNC, 0644);
@@ -90,8 +90,8 @@ int	exec_command1(char *argv[], char *env[], int fds[2])
 
 	cmd = ft_split(argv[2], ' ');
 	if (cmd == NULL)
-		return (ft_err("[pipex_utils -> exec_command1 -> cmd_split]\n"), 1);
-	path = find_path(env, cmd[0]);
+		return (ft_err_1("[pipex_utils -> exec_command1 -> cmd_split]\n"), 1);
+	path = find_path_1(env, cmd[0]);
 	if (path == NULL)
 		return (2);
 	infile_fd = open(argv[1], O_RDONLY);
@@ -110,7 +110,7 @@ int	exec_command1(char *argv[], char *env[], int fds[2])
 	exit(1);
 }
 
-/* Name : find_path
+/* Name : find_path_1
  *
  * Params : char *env[] -> environnement variables taken from main
  *          char *cmd -> the string containing the command and its args
@@ -124,7 +124,7 @@ int	exec_command1(char *argv[], char *env[], int fds[2])
  *			permissions aren't good
  * */
 
-char	*find_path(char *env[], char *cmd)
+char	*find_path_1(char *env[], char *cmd)
 {
 	char	**paths;
 	char	*path_exec;
