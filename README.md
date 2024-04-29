@@ -11,8 +11,8 @@
 
 ## 📝 Table of Contents
 - [About](#about)
-- [Standard Part - Mandatory](#standard-part-mandatory)
-- [Bonus Part - Optional](#bonus-part---optional)
+- [Standard Part - Mandatory](#100-standard-part---mandatory)
+- [Bonus Part - Optional](#125-bonus-part---optional)
 - [Usage](#usage)
 
 ## About
