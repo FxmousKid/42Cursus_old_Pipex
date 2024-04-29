@@ -12,7 +12,7 @@
 ## 📝 Table of Contents
 - [About](#about)
 - [Standard Part - Mandatory](#100-standard-part---mandatory)
-- [Bonus Part - Optional](#125-bonus-part---optional)
+- [Bonus Part - Optional](#bonus-part---optional)
 - [Usage](#usage)
 
 ## About
