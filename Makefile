@@ -6,12 +6,17 @@
 #    By: inazaria <inazaria@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/17 20:24:39 by inazaria          #+#    #+#              #
-#    Updated: 2024/04/27 20:34:59 by inazaria         ###   ########.fr        #
+#    Updated: 2024/08/18 02:29:23 by inazaria         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-SRC_FILES_STANDARD := $(wildcard ./src/*.c)
-SRC_FILES_BONUS    := $(wildcard ./src_bonus/*.c)
+SRC_FILES_STANDARD = src/pipex.c
+SRC_FILES_STANDARD += src/pipex_utils.c
+
+SRC_FILES_BONUS		= src_bonus/pipex_bonus.c
+SRC_FILES_BONUS		+= src_bonus/pipex_utils_bonus_1.c
+SRC_FILES_BONUS		+= src_bonus/pipex_utils_bonus_2.c
+SRC_FILES_BONUS		+= src_bonus/pipex_exec_bonus.c
 
 OBJ_FILES_STANDARD := $(SRC_FILES_STANDARD:.c=.o)
 OBJ_FILES_BONUS    := $(SRC_FILES_BONUS:.c=.o)
@@ -29,7 +34,7 @@ GREEN		:= $(shell echo -e "\033[32m")
 END			:= $(shell echo -e "\033[0m")
 
 .c.o : 
-	@$(CC) $(CFLAGS) -c $< -o $(<:.c=.o)
+	@$(CC) $(CFLAGS) -c $< -o $@
 
 all : $(NAME)
 
